@@ -1,4 +1,6 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+"use client";
+
+import { Calendar, Home, Inbox } from "lucide-react";
 
 import {
   Sidebar,
@@ -11,30 +13,37 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { Logo } from "./logo";
+import { usePathname, useRouter } from "next/navigation";
 
 // Menu items.
 const items = [
   {
     title: "Dashboard",
-    url: "#",
+    url: "/dashboard",
     icon: Home,
   },
   {
     title: "Issue Credentials",
-    url: "#",
+    url: "/credentials",
     icon: Inbox,
   },
   {
-    title: "Logs",
+    title: "User Mangement",
     url: "#",
     icon: Calendar,
   },
 ];
 
 export const AppSidebar = () => {
+  const router = useRouter();
+  const path = usePathname();
+
+  console.log(path.split("/")[1], "pathhh");
+  
+
   return (
     <Sidebar>
-      <SidebarContent className="p-3">
+      <SidebarContent className="bg-white p-5">
         <SidebarGroup>
           <div className="flex items-center">
             <Logo />
@@ -46,8 +55,14 @@ export const AppSidebar = () => {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title} className="mt-2">
-                  <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                  <SidebarMenuButton
+                    isActive={path.split("/")[1] === item.url.split("/")[1]}
+                    asChild
+                  >
+                    <a
+                      className="cursor-pointer"
+                      onClick={() => router.push(item.url)}
+                    >
                       <item.icon />
                       <span className="font-medium">{item.title}</span>
                     </a>

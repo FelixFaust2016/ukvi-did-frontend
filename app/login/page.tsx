@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -9,32 +11,94 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Image from "next/image";
-import { logo } from "@/assets/webp";
 import { Logo } from "@/components/containers";
+import { LoginSchema } from "@/schema/login-schema";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { toast } from "sonner";
 
 export default function Login() {
+  const router = useRouter();
+
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+    toast("Login Successfull!", {
+      action: {
+        label: "Close",
+        onClick: () => console.log("Close"),
+      },
+    });
+    console.log(data);
+    router.push("/dashboard");
+  };
+
   return (
     <section className="w-full h-screen flex justify-center items-center px-2">
       <Card className="max-w-md w-full">
         <CardHeader>
-         <Logo className="m-auto"/>
+          <Logo className="m-auto" />
           <CardTitle className="text-center mt-2">UKVI Issuer Portal</CardTitle>
           <CardDescription className="text-center">
             Login with your DID credentials
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid w-full items-center gap-1.5">
-            <Label htmlFor="email">Email</Label>
-            <Input type="email" id="email" placeholder="Email" />
-          </div>
-          <div className="grid w-full items-center gap-1.5 mt-5">
-            <Label htmlFor="password">Password</Label>
-            <Input type="password" id="password" placeholder="Password" />
-          </div>
-          <Button className="w-full mt-10">Sign in</Button>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="grid w-full items-center gap-1.5">
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="grid w-full items-center gap-1.5 mt-3">
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Password"
+                        {...field}
+                        type="password"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button className="w-full mt-10">Sign in</Button>
+            </form>
+          </Form>
         </CardContent>
+
         <CardFooter className="justify-center">
           <p className="text-center text-xs">
             Secured by Uk Government Authentication Service

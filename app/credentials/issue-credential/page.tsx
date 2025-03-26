@@ -1,3 +1,11 @@
-export default function IssueCredentials() {
-    return <p>Hello from issue credentials!!!</p>
+"use client"
+
+import { VisaType } from "./components";
+
+export default function IssueCredentialsSelectVisaType() {
+  return (
+    <section className="flex gap-5">
+      <VisaType />
+    </section>
+  );
 }

@@ -17,7 +17,7 @@ export default function DashboardLayout({
         <Header title={title} desc={desc}>
           <SidebarTrigger className="block md:hidden lg:hidden" />
         </Header>
-        <div className="px-5">{children}</div>
+        <div className="px-10 py-10 max-w-7xl mx-auto w-full">{children}</div>
       </main>
     </SidebarProvider>
   );

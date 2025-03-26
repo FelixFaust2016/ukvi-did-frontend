@@ -1,5 +1,8 @@
+"use client";
+
 import { TableComponent } from "@/components/containers";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 const tdData = [
   {
@@ -23,15 +26,20 @@ const tdData = [
 ];
 
 export default function Credentials() {
+  const router = useRouter();
+
   return (
     <>
       <div className="flex justify-end items-center w-full">
-        <Button>Issue Credential</Button>
+        <Button onClick={() => router.push("/credentials/issue-credential")}>
+          Issue Credential
+        </Button>
       </div>
+      <h1 className="my-5 font-medium">Issued Visa Credentials</h1>
       <TableComponent
         th={["S/N", "ID", "Applicant DID", "Expiry Date", "CredentialHash"]}
         td={tdData}
-        caption={"List of Issued Credentials"}
+        caption={"List of Issued Visa Credentials"}
       />
     </>
   );
