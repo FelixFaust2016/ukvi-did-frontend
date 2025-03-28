@@ -2,6 +2,8 @@
 
 import { TableComponent } from "@/components/containers";
 import { Button } from "@/components/ui/button";
+import { useGetRequest } from "@/hooks/useApi";
+import { TVC_Blockchain_Schema } from "@/types/vc-blockchain-schema";
 import { useRouter } from "next/navigation";
 
 const tdData = [
@@ -25,8 +27,22 @@ const tdData = [
   },
 ];
 
+interface TRequest {
+  status: string;
+  data: TVC_Blockchain_Schema[];
+}
+
 export default function Credentials() {
   const router = useRouter();
+
+  const { data, error, isLoading } = useGetRequest<TRequest>(
+    "credentials",
+    "credential/get_credentials"
+  );
+
+  if (isLoading || !data) return;
+
+  console.log(data);
 
   return (
     <>
@@ -37,8 +53,17 @@ export default function Credentials() {
       </div>
       <h1 className="my-5 font-medium">Issued Visa Credentials</h1>
       <TableComponent
-        th={["S/N", "ID", "Applicant DID", "Expiry Date", "CredentialHash"]}
-        td={tdData}
+        th={[
+          "S/N",
+          "Applicant DID",
+          "Status",
+          "Date Issued",
+          "Expiry Date",
+          "Transaction Hash",
+          "CID",
+          "",
+        ]}
+        td={data.data}
         caption={"List of Issued Visa Credentials"}
       />
     </>

@@ -13,6 +13,9 @@ import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 import { setFormData } from "@/store/splices/formSlice";
 import { RootState, AppDispatch } from "@/store";
+import { usePostRequest } from "@/hooks/useApi";
+import { TIssue_VC } from "@/types/issue-vc-types";
+import { Loader2 } from "lucide-react";
 
 export const Preview = () => {
   const router = useRouter();
@@ -21,29 +24,40 @@ export const Preview = () => {
 
   const formData = useSelector((state: RootState) => state.form);
 
+  const { mutate, isPending } = usePostRequest<{}, TIssue_VC>(
+    "credential/issue_credential"
+  );
+
   const createCredential = () => {
-    toast("Visa crdential created and stored on-chain", {
-      description: Date.now(),
-      action: {
-        label: "Close",
-        onClick: () => console.log("Close"),
+    mutate(formData, {
+      onSuccess: () => {
+        toast("Visa credential created and stored on-chain", {
+          description: Date.now(),
+          action: {
+            label: "Close",
+            onClick: () => console.log("Close"),
+          },
+        });
+        router.push("/credentials");
+        dispatch(
+          setFormData({
+            visaType: "",
+            visaID: "",
+            firstName: "",
+            lastName: "",
+            dateOfBirth: "",
+            nationality: "",
+            passportNumber: "",
+            passportExpiryDate: "",
+            gender: undefined,
+            placeOfBirth: "",
+          })
+        );
+      },
+      onError: (error) => {
+        toast.error(error.message || "Login failed");
       },
     });
-    router.push("/credentials");
-    dispatch(
-      setFormData({
-        visaType: "",
-        visaID: "",
-        firstName: "",
-        lastName: "",
-        dateOfBirth: "",
-        nationality: "",
-        passportNumber: "",
-        passportExpiryDate: "",
-        gender: undefined,
-        placeOfBirth: "",
-      })
-    );
   };
 
   return (
@@ -53,6 +67,10 @@ export const Preview = () => {
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-3 gap-5">
+          <div>
+            <h3>Visa Type</h3>
+            <p>{formData.visaType}</p>
+          </div>
           <div>
             <h3>Visa ID</h3>
             <p>{formData.visaID}</p>
@@ -101,7 +119,13 @@ export const Preview = () => {
           >
             Back
           </Button>
-          <Button onClick={createCredential} className=" w-20" type="submit">
+          <Button
+            disabled={isPending}
+            onClick={createCredential}
+            className=" w-20"
+            type="submit"
+          >
+            {isPending && <Loader2 className="animate-spin" />}
             Submit
           </Button>
         </div>

@@ -102,9 +102,9 @@ export const VisaType = () => {
                     </FormControl>
                     <SelectContent className="w-full">
                       <SelectItem className="w-full" value="Student Visa">
-                        Student Visa
+                        Student
                       </SelectItem>
-                      <SelectItem value="Work Visa">Work Visa</SelectItem>
+                      <SelectItem value="Work Visa">Work</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />

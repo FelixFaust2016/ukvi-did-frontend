@@ -17,6 +17,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import { usePostRequest } from "@/hooks/useApi";
+import { Loader2 } from "lucide-react";
 
 import {
   Form,
@@ -39,15 +41,27 @@ export default function Login() {
     },
   });
 
+  const { mutate, isPending } = usePostRequest<
+    { token: string },
+    { email: string; password: string }
+  >("users/sign_in");
+
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-    toast("Login Successfull!", {
-      action: {
-        label: "Close",
-        onClick: () => console.log("Close"),
+    mutate(data, {
+      onSuccess: (data) => {
+        toast("Login Successfull!", {
+          action: {
+            label: "Close",
+            onClick: () => console.log("Close"),
+          },
+        });
+        console.log(data);
+        router.push("/dashboard");
+      },
+      onError: (error) => {
+        toast.error(error.message || "Login failed");
       },
     });
-    console.log(data);
-    router.push("/dashboard");
   };
 
   return (
@@ -94,7 +108,9 @@ export default function Login() {
                 )}
               />
 
-              <Button className="w-full mt-10">Sign in</Button>
+              <Button disabled={isPending} className="w-full mt-10">
+                {isPending && <Loader2 className="animate-spin" />}Sign in
+              </Button>
             </form>
           </Form>
         </CardContent>
