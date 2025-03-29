@@ -13,6 +13,8 @@ import { formatDate } from "@/utils/format-date";
 import { truncateText } from "@/utils/truncate";
 import { FC } from "react";
 
+import { Copy } from "lucide-react";
+
 interface RowData {
   visaID: string;
   holderDID: string;
@@ -50,10 +52,24 @@ export const TableComponent: FC<TableProps> = ({ th, td, caption }) => {
               {formatDate(rows.proof.expiresAt)}
             </TableCell>
             <TableCell className="text-lg">
-              {truncateText(rows.txHash, 20)}
+              <div className="flex items-center gap-2">
+                {truncateText(rows.txHash, 20)}
+                <Copy
+                  width={20}
+                  role="button"
+                  onClick={() => navigator.clipboard.writeText(rows.txHash)}
+                />
+              </div>
             </TableCell>
             <TableCell className="text-lg">
-              {truncateText(rows.ipfsCID, 20)}
+              <div className="flex items-center gap-2">
+                {truncateText(rows.ipfsCID, 20)}
+                <Copy
+                  width={20}
+                  role="button"
+                  onClick={() => navigator.clipboard.writeText(rows.ipfsCID)}
+                />
+              </div>
             </TableCell>
             <TableCell className="text-lg"></TableCell>
           </TableRow>

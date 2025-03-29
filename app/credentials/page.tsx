@@ -40,7 +40,9 @@ export default function Credentials() {
     "credential/get_credentials"
   );
 
-  if (isLoading || !data) return;
+  if (isLoading) return <p>Loading....</p>
+
+  if ( error || !data) return <p>An error occured contact admin</p>;
 
   console.log(data);
 
