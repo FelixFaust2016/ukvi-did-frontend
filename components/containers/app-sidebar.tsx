@@ -29,7 +29,7 @@ const items = [
   },
   {
     title: "User Mangement",
-    url: "#",
+    url: "/user-management",
     icon: Calendar,
   },
 ];
@@ -39,7 +39,6 @@ export const AppSidebar = () => {
   const path = usePathname();
 
   console.log(path.split("/")[1], "pathhh");
-  
 
   return (
     <Sidebar>

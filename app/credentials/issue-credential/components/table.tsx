@@ -15,13 +15,6 @@ import { FC } from "react";
 
 import { Copy } from "lucide-react";
 
-interface RowData {
-  visaID: string;
-  holderDID: string;
-  validUntil: string;
-  credentialHash: string;
-}
-
 interface TableProps {
   th: string[];
   td: TVC_Blockchain_Schema[];
