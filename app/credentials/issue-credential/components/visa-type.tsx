@@ -60,6 +60,7 @@ export const VisaType = () => {
     router.push("/credentials");
     dispatch(
       setFormData({
+        image: "",
         visaType: "",
         visaID: "",
         firstName: "",

@@ -42,7 +42,7 @@ export default function Credentials() {
           "Expiry Date",
           "Transaction Hash",
           "CID",
-          "",
+          "Action",
         ]}
         td={data.data}
         caption={"List of Issued Visa Credentials"}

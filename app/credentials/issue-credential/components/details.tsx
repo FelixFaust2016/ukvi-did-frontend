@@ -32,13 +32,18 @@ import { genderOptions } from "@/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store";
 import { setFormData } from "@/store/splices/formSlice";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useState } from "react";
+import { imageToBase64 } from "@/utils/base64-formatter";
 
 export const Details = () => {
+  const formData = useSelector((state: RootState) => state.form);
+
+  const [profileImg, setProfileImg] = useState<string>(formData.image);
+  const [imgError, setImgError] = useState<boolean>(false);
   const router = useRouter();
 
   const dispatch = useDispatch<AppDispatch>();
-
-  const formData = useSelector((state: RootState) => state.form);
 
   const form = useForm<z.infer<typeof IssueVisaSchema>>({
     resolver: zodResolver(IssueVisaSchema),
@@ -55,10 +60,31 @@ export const Details = () => {
     },
   });
 
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      try {
+        const base64 = await imageToBase64(file);
+        setProfileImg(base64);
+        setImgError(false);
+      } catch (error) {
+        console.error("Error encoding file to Base64", error);
+      }
+    }
+  };
+
   const onSubmit = (data: z.infer<typeof IssueVisaSchema>) => {
-    dispatch(setFormData({ ...data, visaType: formData.visaType }));
-    console.log(data);
-    router.push("/credentials/issue-credential/preview");
+    if (profileImg.length > 0) {
+      dispatch(
+        setFormData({ ...data, image: profileImg, visaType: formData.visaType })
+      );
+      console.log(data);
+      router.push("/credentials/issue-credential/preview");
+      return;
+    }
+    setImgError(true);
   };
 
   return (
@@ -69,10 +95,27 @@ export const Details = () => {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        <div className="flex flex-col items-center">
+          <Avatar className="w-20 h-20">
+            <AvatarImage src={profileImg} />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+          {imgError && (
+            <p className="text-red-600 mt-2">Please select an image</p>
+          )}
+          <div className="relative w-fit mt-3">
+            <Input
+              type="file"
+              onChange={handleFileChange}
+              className="w-full opacity-0 h-full z-10 absolute"
+            />
+            <Button>Upload Image</Button>
+          </div>
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-3 grid grid-cols-2 gap-5"
+            className="w-full space-y-3 grid grid-cols-2 gap-5 mt-5"
           >
             <FormField
               control={form.control}

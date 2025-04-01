@@ -16,6 +16,7 @@ import { RootState, AppDispatch } from "@/store";
 import { usePostRequest } from "@/hooks/useApi";
 import { TIssue_VC } from "@/types/issue-vc-types";
 import { Loader2 } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export const Preview = () => {
   const router = useRouter();
@@ -41,6 +42,7 @@ export const Preview = () => {
         router.push("/credentials");
         dispatch(
           setFormData({
+            image: "",
             visaType: "",
             visaID: "",
             firstName: "",
@@ -66,6 +68,10 @@ export const Preview = () => {
         <CardDescription>Visa Preview</CardDescription>
       </CardHeader>
       <CardContent>
+        <Avatar className="w-20 h-20 mb-5 mx-auto">
+          <AvatarImage src={formData.image} />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
         <div className="grid grid-cols-3 gap-5">
           <div>
             <h3>Visa Type</h3>
