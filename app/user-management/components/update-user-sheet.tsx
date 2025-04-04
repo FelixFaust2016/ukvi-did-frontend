@@ -49,7 +49,7 @@ export const UpdateUserSheet: FC<{
   const { mutate, isPending } = usePostRequest<
     { msg: string },
     { name: string; email: string }
-  >(`users/${id}`, "users");
+  >(`users/update/${id}`, "users");
 
   const onSubmit = (data: z.infer<typeof updateUserSchema>) => {
     mutate(data, {

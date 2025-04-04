@@ -44,7 +44,7 @@ export default function Login() {
   const { mutate, isPending } = usePostRequest<
     { token: string },
     { email: string; password: string }
-  >("users/sign_in");
+  >("users/new/sign_in");
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
     mutate(data, {
