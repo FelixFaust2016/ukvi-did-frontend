@@ -1,6 +1,6 @@
 "use client";
 
-import { Calendar, Home, Inbox } from "lucide-react";
+import { Calendar, Home, Inbox, UserCog, UserCheck } from "lucide-react";
 
 import {
   Sidebar,
@@ -28,9 +28,14 @@ const items = [
     icon: Inbox,
   },
   {
+    title: "Applicants",
+    url: "/applicants",
+    icon: UserCheck,
+  },
+  {
     title: "User Mangement",
     url: "/user-management",
-    icon: Calendar,
+    icon: UserCog,
   },
 ];
 

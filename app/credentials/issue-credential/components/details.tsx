@@ -50,6 +50,7 @@ export const Details = () => {
     defaultValues: {
       visaID: formData.visaID,
       firstName: formData.firstName,
+      middleName: formData.middleName,
       lastName: formData.lastName,
       dateOfBirth: formData.dateOfBirth,
       nationality: formData.nationality,
@@ -78,7 +79,12 @@ export const Details = () => {
   const onSubmit = (data: z.infer<typeof IssueVisaSchema>) => {
     if (profileImg.length > 0) {
       dispatch(
-        setFormData({ ...data, image: profileImg, visaType: formData.visaType })
+        setFormData({
+          ...data,
+          image: profileImg,
+          visaType: formData.visaType,
+          subjectDid: formData.subjectDid,
+        })
       );
       console.log(data);
       router.push("/credentials/issue-credential/preview");
@@ -138,6 +144,19 @@ export const Details = () => {
                   <FormLabel>First Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter First Name" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="middleName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Middle Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Enter Middle Name" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

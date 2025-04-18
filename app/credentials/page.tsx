@@ -36,7 +36,6 @@ export default function Credentials() {
       <TableComponent
         th={[
           "S/N",
-          "Applicant DID",
           "Status",
           "Date Issued",
           "Expiry Date",

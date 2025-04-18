@@ -29,7 +29,7 @@ import { z } from "zod";
 import { useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "@/store";
-import { setFormData } from "@/store/splices/formSlice";
+import { resetForm, setFormData } from "@/store/splices/formSlice";
 
 export const VisaType = () => {
   const router = useRouter();
@@ -58,21 +58,7 @@ export const VisaType = () => {
 
   const cancelIssuance = () => {
     router.push("/credentials");
-    dispatch(
-      setFormData({
-        image: "",
-        visaType: "",
-        visaID: "",
-        firstName: "",
-        lastName: "",
-        dateOfBirth: "",
-        nationality: "",
-        passportNumber: "",
-        passportExpiryDate: "",
-        gender: undefined,
-        placeOfBirth: "",
-      })
-    );
+    dispatch(resetForm());
   };
 
   return (

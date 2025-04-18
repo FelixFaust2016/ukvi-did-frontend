@@ -1,10 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface FormState {
+  subjectDid: string;
   image: string;
   visaType: string;
   visaID: string;
   firstName: string;
+  middleName: string;
   lastName: string;
   dateOfBirth: string;
   nationality: string;
@@ -15,10 +17,12 @@ interface FormState {
 }
 
 const initialState: FormState = {
+  subjectDid: "",
   image: "",
   visaType: "",
   visaID: "",
   firstName: "",
+  middleName: "",
   lastName: "",
   dateOfBirth: "",
   nationality: "",

@@ -52,15 +52,15 @@ export const TableComponent: FC<TableProps> = ({ th, td, caption }) => {
           {td.map((rows, i) => (
             <TableRow key={i * 100000}>
               <TableCell className="font-medium text-lg">{i + 1}</TableCell>
-              <TableCell className="text-lg">{rows.holderDID || "-"}</TableCell>
+
               <TableCell className="text-lg capitalize">
                 {rows.status}
               </TableCell>
               <TableCell className="text-lg">
-                {formatDate(rows.proof.issuedAt)}
+                {formatDate(rows.issuedAt)}
               </TableCell>
               <TableCell className="text-lg">
-                {formatDate(rows.proof.expiresAt)}
+                {formatDate(rows.expiresAt)}
               </TableCell>
               <TableCell className="text-lg">
                 <div className="flex items-center gap-2">

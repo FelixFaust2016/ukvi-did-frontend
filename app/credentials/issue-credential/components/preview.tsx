@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
-import { setFormData } from "@/store/splices/formSlice";
+import { resetForm } from "@/store/splices/formSlice";
 import { RootState, AppDispatch } from "@/store";
 import { usePostRequest } from "@/hooks/useApi";
 import { TIssue_VC } from "@/types/issue-vc-types";
@@ -40,21 +40,7 @@ export const Preview = () => {
           },
         });
         router.push("/credentials");
-        dispatch(
-          setFormData({
-            image: "",
-            visaType: "",
-            visaID: "",
-            firstName: "",
-            lastName: "",
-            dateOfBirth: "",
-            nationality: "",
-            passportNumber: "",
-            passportExpiryDate: "",
-            gender: undefined,
-            placeOfBirth: "",
-          })
-        );
+        dispatch(resetForm());
       },
       onError: (error) => {
         toast.error(error.message || "Login failed");
